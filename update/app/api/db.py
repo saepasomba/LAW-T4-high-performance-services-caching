@@ -2,7 +2,7 @@ from sqlalchemy import (Column, Integer, MetaData, String, Table, create_engine,
 
 from databases import Database
 
-DATABASE_URL = 'postgresql://admin:admin@localhost:5432/student_db'
+DATABASE_URL = 'postgresql://saepasomba:123@localhost:5432/student_db'
 
 engine = create_engine(DATABASE_URL)
 metadata = MetaData()
