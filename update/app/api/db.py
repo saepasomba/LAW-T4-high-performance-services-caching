@@ -18,4 +18,4 @@ students = Table(
     Column('nama', String(50)),
 )
 
-database = Database(DATABASE_URL)
+database = Database(DATABASE_URI)
