@@ -1,5 +1,37 @@
 services:
+  student_db:
+    image: postgres:14
+    volumes:
+      - postgres_students_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=db_username
+      - POSTGRES_PASSWORD=db_password
+      - POSTGRES_DB=student_db_dev
   
+  read:
+    build: ./read
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    volumes:
+      - ./read/:/app/
+    ports:
+      - 8001:8000
+    environment:
+      - DATABASE_URI=postgresql://db_username:db_password@student_db/student_db_dev
+    depends_on:
+      - student_db
+  
+  update:
+    build: ./update
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    volumes:
+      - ./update/:/app/
+    ports:
+      - 8002:8000
+    environment:
+      - DATABASE_URI=postgresql://db_username:db_password@student_db/student_db_dev
+    depends_on:
+      - student_db
+
 
   nginx:
     image: nginx:latest
@@ -12,3 +44,4 @@ services:
       - update
 
 volumes:
+  postgres_students_data:
